@@ -1,23 +1,16 @@
 import React from 'react';
+import useKeyPressed from '../../hooks/use-key-pressed';
 
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
 
-  React.useEffect(() => {
-    function handleKeyDown(event) {
-      if (event.code === 'Escape') {
-        setToasts([]);
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+  const handleEscape = React.useCallback(() => {
+    setToasts([]);
   }, []);
+
+  useKeyPressed('Escape', handleEscape);
 
   const handleAddToast = React.useCallback(
     (message, variant) => {
