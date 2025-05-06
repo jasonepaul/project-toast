@@ -3,15 +3,22 @@ import React from 'react';
 import Toast from '../Toast';
 import styles from './ToastShelf.module.css';
 
-function ToastShelf() {
+function ToastShelf({ toasts, handleRemoveToast }) {
+  console.log('toast shelf render');
+
   return (
     <ol className={styles.wrapper}>
-      <li className={styles.toastWrapper}>
-        <Toast variant="notice">Example notice toast</Toast>
-      </li>
-      <li className={styles.toastWrapper}>
-        <Toast variant="error">Example error toast</Toast>
-      </li>
+      {toasts?.map((toast) => (
+        <li key={toast.key} className={styles.toastWrapper}>
+          <Toast
+            variant={toast.variant}
+            handleRemoveToast={handleRemoveToast}
+            id={toast.key}
+          >
+            {toast.message}
+          </Toast>
+        </li>
+      ))}
     </ol>
   );
 }
